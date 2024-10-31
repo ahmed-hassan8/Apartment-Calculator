@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Loan Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 flex items-center justify-center h-screen">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-4 text-center text-gray-800">Loan Calculator</h1>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block font-medium mb-2 text-gray-600">Loan Amount</label>
+        <input type="number" id="loan-amount" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100" placeholder="Enter loan amount" />
+      </div>
+      <div>
+        <label class="block font-medium mb-2 text-gray-600">Interest Rate (%)</label>
+        <input type="number" id="interest-rate" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100" placeholder="Enter interest rate" />
+      </div>
+      <div>
+        <label class="block font-medium mb-2 text-gray-600">Loan Term (Years)</label>
+        <select id="loan-term" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100">
+          <option value="3">3 Years</option>
+          <option value="5">5 Years</option>
+          <option value="7">7 Years</option>
+        </select>
+      </div>
+      <div>
+        <button id="calculate-btn" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">Calculate</button>
+      </div>
+    </div>
+    <div class="mt-8">
+      <h2 class="text-xl font-bold mb-4 text-gray-800">Loan Details</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="font-medium text-gray-600">Monthly Payment</p>
+          <p id="monthly-payment" class="text-4xl font-bold text-gray-800"></p>
+        </div>
+        <div>
+          <p class="font-medium text-gray-600">Total Payment</p>
+          <p id="total-payment" class="text-4xl font-bold text-gray-800"></p>
+        </div>
+        <div>
+          <p class="font-medium text-gray-600">Total Interest</p>
+          <p id="total-interest" class="text-4xl font-bold text-gray-800"></p>
+        </div>
+        <div>
+          <p class="font-medium text-gray-600">Number of Payments</p>
+          <p id="num-payments" class="text-4xl font-bold text-gray-800"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const loanAmountInput = document.getElementById('loan-amount');
+    const interestRateInput = document.getElementById('interest-rate');
+    const loanTermSelect = document.getElementById('loan-term');
+    const calculateBtn = document.getElementById('calculate-btn');
+    const monthlyPaymentOutput = document.getElementById('monthly-payment');
+    const totalPaymentOutput = document.getElementById('total-payment');
+    const totalInterestOutput = document.getElementById('total-interest');
+    const numPaymentsOutput = document.getElementById('num-payments');
+
+    calculateBtn.addEventListener('click', () => {
+      const loanAmount = parseFloat(loanAmountInput.value);
+      const interestRate = parseFloat(interestRateInput.value) / 100 / 12; // Monthly interest rate
+      const loanTermYears = parseFloat(loanTermSelect.value);
+      const numPayments = loanTermYears * 12; // Monthly payments
+
+      const monthlyPayment = (loanAmount * (interestRate * (1 + interestRate) ** numPayments)) / ((1 + interestRate) ** numPayments - 1);
+      const totalPayment = monthlyPayment * numPayments;
+      const totalInterest = totalPayment - loanAmount;
+
+      monthlyPaymentOutput.textContent = monthlyPayment.toFixed(2);
+      totalPaymentOutput.textContent = totalPayment.toFixed(2);
+      totalInterestOutput.textContent = totalInterest.toFixed(2);
+      numPaymentsOutput.textContent = numPayments;
+    });
+  </script>
+</body>
+</html>

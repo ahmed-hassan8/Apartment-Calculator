@@ -149,9 +149,9 @@
             resultsDiv.classList.remove('hidden');
 
             // Format currency
-            const formatter = new Intl.NumberFormat('en-US', {
+            const formatter = new Intl.NumberFormat('en-eg', {
                 style: 'currency',
-                currency: 'USD'
+                currency: 'eg'
             });
 
             document.getElementById('monthlyPayment').textContent = formatter.format(monthlyPayment);

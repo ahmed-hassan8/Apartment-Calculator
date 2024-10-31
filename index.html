@@ -3,133 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loan Calculator - Ahmed Hassan</title>
+    <title>Loan Calculator (EGP)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #f0f4f8;
-        }
-        .custom-gradient {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-        }
-    </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="bg-gray-100">
     <div class="flex-grow container mx-auto px-4 py-8 flex items-center justify-center">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-8 border-t-4 border-blue-500">
             <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Loan Calculator (EGP)</h1>
             
             <div class="space-y-4">
                 <div>
-                    <label class="block text-gray-700 font-semibold mb-2" for="loanAmount">Loan Amount (EGP)</label>
-                    <input 
-                        type="number" 
-                        id="loanAmount" 
-                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" 
-                        placeholder="Enter loan amount in EGP"
-                    >
+                    <label for="loan-amount" class="block mb-2">Loan Amount (EGP)</label>
+                    <input type="number" id="loan-amount" class="w-full px-3 py-2 border rounded-md" placeholder="Enter loan amount">
                 </div>
-                
+
                 <div>
-                    <label class="block text-gray-700 font-semibold mb-2" for="interestRate">Interest Rate (%)</label>
-                    <input 
-                        type="number" 
-                        id="interestRate" 
-                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" 
-                        placeholder="Enter annual interest rate"
-                        step="0.1"
-                    >
+                    <label for="interest-rate" class="block mb-2">Interest Rate (%)</label>
+                    <input type="number" id="interest-rate" step="0.1" class="w-full px-3 py-2 border rounded-md" placeholder="Enter interest rate">
                 </div>
-                
+
                 <div>
-                    <label class="block text-gray-700 font-semibold mb-2">Loan Term (Years)</label>
+                    <label class="block mb-2">Loan Term (Years)</label>
                     <div class="flex space-x-3">
-                        <button class="term-btn flex-1 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition" data-years="3">3 Years</button>
-                        <button class="term-btn flex-1 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition" data-years="5">5 Years</button>
-                        <button class="term-btn flex-1 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition" data-years="7">7 Years</button>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="loan-term" value="3" class="form-radio">
+                            <span class="ml-2">3 Years</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="loan-term" value="5" class="form-radio">
+                            <span class="ml-2">5 Years</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="loan-term" value="7" class="form-radio">
+                            <span class="ml-2">7 Years</span>
+                        </label>
                     </div>
-                    <input type="hidden" id="loanTerm" value="3">
                 </div>
-                
-                <button 
-                    id="calculateBtn" 
-                    class="w-full py-3 custom-gradient text-white font-bold rounded-lg hover:opacity-90 transition"
-                >
+
+                <div>
+                    <label class="block mb-2">Payment Frequency</label>
+                    <div class="flex space-x-3">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="payment-frequency" value="monthly" class="form-radio" checked>
+                            <span class="ml-2">Monthly</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="payment-frequency" value="quarterly" class="form-radio">
+                            <span class="ml-2">Quarterly</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button id="calculate-btn" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300">
                     Calculate Loan Details
                 </button>
             </div>
-            
+
             <div id="results" class="mt-6 hidden">
                 <h2 class="text-xl font-bold mb-4 text-gray-800">Loan Details</h2>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="bg-blue-50 p-4 rounded-lg">
-                        <p class="text-gray-600 text-sm">Monthly Payment</p>
-                        <p id="monthlyPayment" class="text-xl font-bold text-blue-700">0.00 EGP</p>
+                        <h3 class="text-sm font-semibold text-gray-600">Payment Amount</h3>
+                        <p id="payment-amount" class="text-lg font-bold">0.00 EGP</p>
                     </div>
                     <div class="bg-blue-50 p-4 rounded-lg">
-                        <p class="text-gray-600 text-sm">Total Payment</p>
-                        <p id="totalPayment" class="text-xl font-bold text-blue-700">0.00 EGP</p>
+                        <h3 class="text-sm font-semibold text-gray-600">Total Payment</h3>
+                        <p id="total-payment" class="text-lg font-bold">0.00 EGP</p>
                     </div>
                     <div class="bg-blue-50 p-4 rounded-lg">
-                        <p class="text-gray-600 text-sm">Total Interest</p>
-                        <p id="totalInterest" class="text-xl font-bold text-blue-700">0.00 EGP</p>
+                        <h3 class="text-sm font-semibold text-gray-600">Total Interest</h3>
+                        <p id="total-interest" class="text-lg font-bold">0.00 EGP</p>
                     </div>
                     <div class="bg-blue-50 p-4 rounded-lg">
-                        <p class="text-gray-600 text-sm">Number of Payments</p>
-                        <p id="numberOfPayments" class="text-xl font-bold text-blue-700">0</p>
+                        <h3 class="text-sm font-semibold text-gray-600">Number of Payments</h3>
+                        <p id="number-of-payments" class="text-lg font-bold">0</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <footer class="bg-gray-800 text-white py-6">
-        <div class="container mx-auto px-4 text-center">
-            <p class="mb-2 font-semibold">Created by: Ahmed Hassan</p>
-            <p>Contact: +966 563 182 026</p>
-        </div>
-    </footer>
+
+    <div class="container mx-auto px-4 text-center mt-4">
+        <p>Created by: Ahmed Hassan</p>
+        <p>Contact: +966 563 182 026</p>
+    </div>
 
     <script>
-        // Term selection
-        document.querySelectorAll('.term-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.term-btn').forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
-                this.classList.add('bg-blue-500', 'text-white');
-                document.getElementById('loanTerm').value = this.dataset.years;
-            });
-        });
+        document.getElementById('calculate-btn').addEventListener('click', function() {
+            // Get input values
+            const loanAmount = parseFloat(document.getElementById('loan-amount').value);
+            const interestRate = parseFloat(document.getElementById('interest-rate').value);
+            const loanTerm = parseFloat(document.querySelector('input[name="loan-term"]:checked').value);
+            const paymentFrequency = document.querySelector('input[name="payment-frequency"]:checked').value;
 
-        // Set default 3-year term active
-        document.querySelector('.term-btn[data-years="3"]').classList.add('bg-blue-500', 'text-white');
-
-        // Calculate button
-        document.getElementById('calculateBtn').addEventListener('click', function() {
-            const loanAmount = parseFloat(document.getElementById('loanAmount').value);
-            const interestRate = parseFloat(document.getElementById('interestRate').value);
-            const loanTerm = parseInt(document.getElementById('loanTerm').value);
-
-            if (isNaN(loanAmount) || isNaN(interestRate) || loanAmount <= 0 || interestRate < 0) {
-                alert('Please enter valid loan amount and interest rate.');
+            // Validate inputs
+            if (isNaN(loanAmount) || isNaN(interestRate) || isNaN(loanTerm)) {
+                alert('Please fill in all fields correctly');
                 return;
             }
 
-            const monthlyInterestRate = (interestRate / 100) / 12;
-            const numberOfPayments = loanTerm * 12;
+            // Calculate loan details
+            const annualInterestRate = interestRate / 100;
+            let periodsPerYear, totalPeriods;
 
-            const monthlyPayment = loanAmount * (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments)) 
-                / (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
+            if (paymentFrequency === 'monthly') {
+                periodsPerYear = 12;
+                totalPeriods = loanTerm * 12;
+            } else { // quarterly
+                periodsPerYear = 4;
+                totalPeriods = loanTerm * 4;
+            }
 
-            const totalPayment = monthlyPayment * numberOfPayments;
+            const periodInterestRate = annualInterestRate / periodsPerYear;
+
+            // Calculate payment amount using the loan amortization formula
+            const paymentAmount = loanAmount * 
+                (periodInterestRate * Math.pow(1 + periodInterestRate, totalPeriods)) / 
+                (Math.pow(1 + periodInterestRate, totalPeriods) - 1);
+
+            const totalPayment = paymentAmount * totalPeriods;
             const totalInterest = totalPayment - loanAmount;
 
-            document.getElementById('monthlyPayment').textContent = `${monthlyPayment.toFixed(2)} EGP`;
-            document.getElementById('totalPayment').textContent = `${totalPayment.toFixed(2)} EGP`;
-            document.getElementById('totalInterest').textContent = `${totalInterest.toFixed(2)} EGP`;
-            document.getElementById('numberOfPayments').textContent = numberOfPayments;
+            // Update results
+            document.getElementById('payment-amount').textContent = `${paymentAmount.toFixed(2)} EGP`;
+            document.getElementById('total-payment').textContent = `${totalPayment.toFixed(2)} EGP`;
+            document.getElementById('total-interest').textContent = `${totalInterest.toFixed(2)} EGP`;
+            document.getElementById('number-of-payments').textContent = totalPeriods;
 
+            // Show results
             document.getElementById('results').classList.remove('hidden');
         });
     </script>
